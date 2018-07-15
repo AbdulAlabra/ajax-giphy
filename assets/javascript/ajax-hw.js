@@ -26,7 +26,7 @@ function displayPic() {
     })
         .then(function (response) {
             var animal_picture = response.data;
-            console.log(animal_picture);
+
             for (var i = 0; i < animal_picture.length; i++) {
 
                 var createImg = $("<img>");
@@ -36,20 +36,19 @@ function displayPic() {
                 createImg.attr("id", i);
                 createImg.addClass('static');
                 $(".animal-pic").append(createImg, rating);
-                
+
 
             }
 
             $("img").on("click", function () {
+
                 var animate_img = $(this).attr('class');
-                console.log(animate_img);
                 var img_id = $(this).attr("id");
-                // var new_url = $(this).attr("src", animal_picture[img_id].images.downsized_medium.url);
 
                 if (animate_img === "static") {
+
                     $(this).attr("src", animal_picture[img_id].images.downsized_medium.url);
                     var animate_img = $(this).attr('class', 'dynamic');
-                    console.log(animate_img);
                 }
                 else {
                     animate_img = $(this).attr('class', 'static');
@@ -59,8 +58,9 @@ function displayPic() {
             });
 
 
-        });
-}
+        }); // end of "then"
+
+}//end of displayPic function 
 
 function addBtn(event) {
 
@@ -69,6 +69,8 @@ function addBtn(event) {
     animals.push(addAnimal);
     showBtn();
 }
+
+// execuation 
 
 showBtn();
 $(".button-wrapper").on("click", '.animal', displayPic);
