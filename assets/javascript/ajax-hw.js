@@ -1,14 +1,14 @@
 
-var topics = ['cat', 'dog', 'monkey', 'fish'];
+var animals = ['cat', 'dog', 'giraffe', 'bear'];
 
 function showBtn() {
 
     $(".button-wrapper").empty();
-    for (i = 0; i < topics.length; i++) {
+    for (i = 0; i < animals.length; i++) {
         var btn = $("<button>");
         btn.addClass('animal');
-        btn.attr("data-animal-name", topics[i]);
-        btn.text(topics[i]);
+        btn.attr("data-animal-name", animals[i]);
+        btn.text(animals[i]);
         $(".button-wrapper").append(btn);
     }
 }
@@ -16,25 +16,49 @@ function showBtn() {
 function displayPic() {
     $(".animal-pic").empty();
 
-    var animal = $(this).attr("data-animal-name");
-    console.log(animal);
+    var thisAnimal = $(this).attr("data-animal-name");
     var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-        animal + "&api_key=dc6zaTOxFJmzC&limit=10";
+        thisAnimal + "&api_key=dc6zaTOxFJmzC&limit=10";
 
     $.ajax({
         url: queryURL,
         method: "GET"
     })
         .then(function (response) {
-            var animalChosen = response.data;
+            var animal_picture = response.data;
+            console.log(animal_picture);
+            for (var i = 0; i < animal_picture.length; i++) {
 
-            for (var i = 0; i < animalChosen.length; i++) {
                 var createImg = $("<img>");
-                createImg.attr("src", animalChosen[i].images["480w_still"].url);
-                $(".animal-pic").append(createImg);
+                var rating = animal_picture[i].rating;
+
+                createImg.attr("src", animal_picture[i].images["480w_still"].url);
+                createImg.attr("id", i);
+                createImg.addClass('static');
+                $(".animal-pic").append(createImg, rating);
+                
+
             }
 
-            console.log(response.data);
+            $("img").on("click", function () {
+                var animate_img = $(this).attr('class');
+                console.log(animate_img);
+                var img_id = $(this).attr("id");
+                // var new_url = $(this).attr("src", animal_picture[img_id].images.downsized_medium.url);
+
+                if (animate_img === "static") {
+                    $(this).attr("src", animal_picture[img_id].images.downsized_medium.url);
+                    var animate_img = $(this).attr('class', 'dynamic');
+                    console.log(animate_img);
+                }
+                else {
+                    animate_img = $(this).attr('class', 'static');
+                    $(this).attr("src", animal_picture[img_id].images["480w_still"].url);
+                }
+
+            });
+
+
         });
 }
 
@@ -42,21 +66,11 @@ function addBtn(event) {
 
     event.preventDefault();
     var addAnimal = $("#animal-input").val().trim();
-    // for(var i = 0; i < topics.length; i++) {
-    //     if(addAnimal != )
-        topics.push(addAnimal);
-         showBtn();
-
-    // }
-
-    console.log(topics);
+    animals.push(addAnimal);
+    showBtn();
 }
 
 showBtn();
+$(".button-wrapper").on("click", '.animal', displayPic);
+$("#create-btn-animal").on("click", addBtn);
 
-console.log(topics);
-
-$(".button-wrapper").on("click",'.animal', displayPic);
-
-
- $("#create-btn-animal").on("click", addBtn);

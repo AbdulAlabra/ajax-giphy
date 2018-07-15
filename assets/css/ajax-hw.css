@@ -1,0 +1,36 @@
+body{
+    text-align: center;
+    background-color: rgba(0, 255, 106, 0.623);
+}
+img{
+    height: 200px;
+    width: 200px;
+    text-align: center;
+    padding: 10px;
+    border: solid;
+    cursor: pointer;
+    margin: 50px;
+    background-color: white;
+
+}
+p{
+margin-top: 10px;    
+}
+.button-wrapper{
+    text-align: center;
+}
+button{
+    margin: 10px; 
+}
+h1{
+    text-align: center;
+    background: white;
+}
+#animal-input{
+    margin-left: 10px;
+    width: 300px;
+    border-color: blanchedalmond;
+}
+
+
+
